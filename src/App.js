@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import Displayimages from "./components/Displayimages";
+import Search from "./components/Search";
 
-function App() {
+const App = () => {
+  const [Images, setImages] = useState([]);
+
+  useEffect(() => {
+    const fetch_images = async () => {
+      const data = await fetch(
+        `https://api.unsplash.com/photos/?client_id=ew2YFXjUBjUnYZgD1Gdi9KEJbptMNyWKYxE6RsRjG8Y`
+      ).then((response) => response.json());
+      await setImages(data);
+    };
+
+    fetch_images();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header Images={Images} setImages={setImages} />
+      <Search Images={Images} setImages={setImages} />
+      <Displayimages Images={Images} setImages={setImages} />
     </div>
   );
-}
+};
 
 export default App;
